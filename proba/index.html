@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<!-- ПРОБА АЙФОНА (узел М5а WBS Хронометража) · Хронометраж-2 · 05.11.2026 · страница-пустышка: открывается ли без связи с экрана «Домой» и держит ли строку. Данных нет. Живёт до: исход М5а -->
+<html lang="ru"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Проба">
+<link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon.png">
+<title>Проба Хронометража</title>
+<style>body{font:18px -apple-system,sans-serif;margin:24px;background:#f4efe6;color:#222}input,button{font:inherit;padding:10px;width:100%;box-sizing:border-box;margin:6px 0}#ст{white-space:pre-line;color:#555}</style>
+</head><body>
+<h2>Проба: работает ли без интернета</h2>
+<p id="ст">…</p>
+<input id="в" placeholder="напишите любую строку"><button id="с">Сохранить</button>
+<p>Сохранено: <b id="з">—</b></p>
+<script>
+var К = 'проба_строка';
+function показ() { document.getElementById('з').textContent = localStorage.getItem(К) || '—'; }
+document.getElementById('с').onclick = function () { localStorage.setItem(К, document.getElementById('в').value + ' · ' + new Date().toLocaleString('ru-RU')); показ(); };
+показ();
+var сеть = navigator.onLine ? 'связь есть' : 'связи НЕТ';
+var дом = (navigator.standalone || matchMedia('(display-mode: standalone)').matches) ? 'открыто со значка' : 'открыто во вкладке (нужно со значка)';
+document.getElementById('ст').textContent = сеть + '\n' + дом + '\nоткрыто: ' + new Date().toLocaleTimeString('ru-RU');
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function (e) { document.getElementById('ст').textContent += '\nхранение страницы не включилось: ' + e; });
+else document.getElementById('ст').textContent += '\nхранение страницы не поддерживается';
+</script></body></html>
